@@ -6,4 +6,5 @@ public final class DrivingConstants {
     }
 
     public static final String CATEGORY_CREATED_MESSAGE = "Category created successfully.";
+    public static final String BRAND_CREATED_MESSAGE = "Brand created successfully.";
 }
