@@ -1,5 +1,6 @@
 package com.bootcamp.microserviceStock.configuration.exceptionHandler;
 
+import com.bootcamp.microserviceStock.adapters.driven.jpa.mysql.exception.BrandAlreadyExistsException;
 import com.bootcamp.microserviceStock.adapters.driven.jpa.mysql.exception.CategoryAlreadyExistsException;
 import com.bootcamp.microserviceStock.domain.exception.EmptyFieldException;
 import com.bootcamp.microserviceStock.domain.exception.MaxFieldSizeException;
@@ -26,6 +27,11 @@ public class ControllerAdvisor {
 
     @ExceptionHandler(CategoryAlreadyExistsException.class)
     public ResponseEntity<ExceptionResponse> handleCategoryAlreadyExistsException(CategoryAlreadyExistsException e) {
+        return ResponseEntity.badRequest().body(new ExceptionResponse(String.format(e.getMessage()), HttpStatus.BAD_REQUEST.toString(), LocalDateTime.now()));
+    }
+
+    @ExceptionHandler(BrandAlreadyExistsException.class)
+    public ResponseEntity<ExceptionResponse> handleBrandAlreadyExistsException(BrandAlreadyExistsException e) {
         return ResponseEntity.badRequest().body(new ExceptionResponse(String.format(e.getMessage()), HttpStatus.BAD_REQUEST.toString(), LocalDateTime.now()));
     }
 }
