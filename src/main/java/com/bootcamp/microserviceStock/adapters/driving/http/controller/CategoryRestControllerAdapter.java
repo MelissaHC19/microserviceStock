@@ -4,6 +4,7 @@ import com.bootcamp.microserviceStock.adapters.driving.http.dto.request.Category
 import com.bootcamp.microserviceStock.adapters.driving.http.mapper.ICategoryRequestMapper;
 import com.bootcamp.microserviceStock.adapters.driving.http.util.DrivingConstants;
 import com.bootcamp.microserviceStock.domain.api.ICategoryServicePort;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,7 +23,7 @@ public class CategoryRestControllerAdapter {
     private final ICategoryRequestMapper categoryRequestMapper;
 
     @PostMapping("/create")
-    public ResponseEntity<ControllerResponse> createCategory(@RequestBody CategoryRequest request) {
+    public ResponseEntity<ControllerResponse> createCategory(@Valid @RequestBody CategoryRequest request) {
         categoryServicePort.createCategory(categoryRequestMapper.requestToCategory(request));
         return ResponseEntity.status(HttpStatus.CREATED).body(new ControllerResponse(DrivingConstants.CATEGORY_CREATED_MESSAGE, HttpStatus.CREATED.toString(), LocalDateTime.now()));
     }
