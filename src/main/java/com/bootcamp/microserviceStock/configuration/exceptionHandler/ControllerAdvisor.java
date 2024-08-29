@@ -1,8 +1,6 @@
 package com.bootcamp.microserviceStock.configuration.exceptionHandler;
 
-import com.bootcamp.microserviceStock.adapters.driven.jpa.mysql.exception.CategoryAlreadyExistsException;
-import com.bootcamp.microserviceStock.domain.exception.EmptyFieldException;
-import com.bootcamp.microserviceStock.domain.exception.MaxFieldSizeException;
+import com.bootcamp.microserviceStock.domain.exception.ValidationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -14,23 +12,14 @@ import java.util.ArrayList;
 
 @ControllerAdvice
 public class ControllerAdvisor {
-//    @ExceptionHandler(EmptyFieldException.class)
-//    public ResponseEntity<ExceptionResponse> handleEmptyFieldException(EmptyFieldException e) {
-//        return ResponseEntity.badRequest().body(new ExceptionResponse(String.format(e.getMessage()), HttpStatus.BAD_REQUEST.toString(), LocalDateTime.now()));
-//    }
-//
-//    @ExceptionHandler(MaxFieldSizeException.class)
-//    public ResponseEntity<ExceptionResponse> handleMaxFieldSizeException(MaxFieldSizeException e) {
-//        return ResponseEntity.badRequest().body(new ExceptionResponse(String.format(e.getMessage()), HttpStatus.BAD_REQUEST.toString(), LocalDateTime.now()));
-//    }
-//
-//    @ExceptionHandler(CategoryAlreadyExistsException.class)
-//    public ResponseEntity<ExceptionResponse> handleCategoryAlreadyExistsException(CategoryAlreadyExistsException e) {
-//        return ResponseEntity.badRequest().body(new ExceptionResponse(String.format(e.getMessage()), HttpStatus.BAD_REQUEST.toString(), LocalDateTime.now()));
-//    }
+    @ExceptionHandler(ValidationException.class)
+    public ResponseEntity<ExceptionResponse> handleValidationExceptionUC(ValidationException ex) {
+        ExceptionResponse response = new ExceptionResponse(ex.getErrors(), HttpStatus.BAD_REQUEST.toString(), LocalDateTime.now());
+        return ResponseEntity.badRequest().body(response);
+    }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<ExceptionResponse> handleValidationExceptions(MethodArgumentNotValidException ex) {
+    public ResponseEntity<ExceptionResponse> handleValidationExceptionsDTO(MethodArgumentNotValidException ex) {
         ArrayList<String> errors = new ArrayList<>();
         ex.getBindingResult().getFieldErrors().forEach(
                 error -> errors.add(error.getDefaultMessage())

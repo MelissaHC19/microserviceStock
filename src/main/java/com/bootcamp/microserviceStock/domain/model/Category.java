@@ -10,19 +10,6 @@ public class Category {
     private String description;
 
     public Category(Long id, String name, String description) {
-        if (name.trim().isEmpty()) {
-            throw new EmptyFieldException(DomainConstants.FIELD_NAME_EMPTY_MESSAGE);
-        }
-        if (description.trim().isEmpty()) {
-            throw new EmptyFieldException(DomainConstants.FIELD_DESCRIPTION_EMPTY_MESSAGE);
-        }
-        if (name.length() > DomainConstants.MAX_FIELD_SIZE_NAME) {
-            throw new MaxFieldSizeException(DomainConstants.MAX_FIELD_SIZE_NAME_MESSAGE);
-        }
-        if (description.length() > DomainConstants.MAX_FIELD_SIZE_DESCRIPTION) {
-            throw new MaxFieldSizeException(DomainConstants.MAX_FIELD_SIZE_DESCRIPTION_MESSAGE);
-        }
-
         this.id = id;
         this.name = name;
         this.description = description;
