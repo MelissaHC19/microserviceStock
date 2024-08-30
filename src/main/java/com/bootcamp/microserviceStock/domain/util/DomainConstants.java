@@ -15,4 +15,6 @@ public final class DomainConstants {
     public static final String MAX_FIELD_SIZE_DESCRIPTION_BRAND_MESSAGE = "Field 'description' exceeds the maximum allowed character limit of 120 characters.";
     public static final String CATEGORY_CREATED_MESSAGE = "Category created successfully.";
     public static final String BRAND_CREATED_MESSAGE = "Brand created successfully.";
+    public static final String CATEGORY_ALREADY_EXISTS_MESSAGE = "Category already exists.";
+    public static final String BRAND_ALREADY_EXISTS_MESSAGE = "Brand already exists.";
 }

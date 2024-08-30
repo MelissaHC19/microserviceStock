@@ -32,7 +32,7 @@ public class CategoryUseCase implements ICategoryServicePort {
             errors.add(DomainConstants.MAX_FIELD_SIZE_DESCRIPTION_MESSAGE);
         }
         if(categoryPersistencePort.alreadyExistsByName(category.getName())) {
-            errors.add(DomainConstants.CATEGORY_CREATED_MESSAGE);
+            errors.add(DomainConstants.CATEGORY_ALREADY_EXISTS_MESSAGE);
         }
         if (!errors.isEmpty()) {
             throw new ValidationException(errors);

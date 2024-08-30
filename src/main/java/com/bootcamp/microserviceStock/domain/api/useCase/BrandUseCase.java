@@ -32,7 +32,7 @@ public class BrandUseCase implements IBrandServicePort {
             errors.add(DomainConstants.MAX_FIELD_SIZE_DESCRIPTION_BRAND_MESSAGE);
         }
         if(brandPersistencePort.alreadyExistsByName(brand.getName())) {
-            errors.add(DomainConstants.BRAND_CREATED_MESSAGE);
+            errors.add(DomainConstants.BRAND_ALREADY_EXISTS_MESSAGE);
         }
         if (!errors.isEmpty()) {
             throw new ValidationException(errors);
