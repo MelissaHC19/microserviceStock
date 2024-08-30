@@ -4,4 +4,5 @@ import com.bootcamp.microserviceStock.domain.model.Category;
 
 public interface ICategoryPersistencePort {
     void createCategory(Category category);
+    boolean alreadyExistsByName(String name);
 }

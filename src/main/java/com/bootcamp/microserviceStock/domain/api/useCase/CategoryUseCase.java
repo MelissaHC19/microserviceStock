@@ -1,8 +1,6 @@
 package com.bootcamp.microserviceStock.domain.api.useCase;
 
 import com.bootcamp.microserviceStock.domain.api.ICategoryServicePort;
-import com.bootcamp.microserviceStock.domain.exception.EmptyFieldException;
-import com.bootcamp.microserviceStock.domain.exception.MaxFieldSizeException;
 import com.bootcamp.microserviceStock.domain.exception.ValidationException;
 import com.bootcamp.microserviceStock.domain.model.Category;
 import com.bootcamp.microserviceStock.domain.spi.ICategoryPersistencePort;
@@ -32,6 +30,9 @@ public class CategoryUseCase implements ICategoryServicePort {
         }
         if (category.getDescription().length() > DomainConstants.MAX_FIELD_SIZE_DESCRIPTION) {
             errors.add(DomainConstants.MAX_FIELD_SIZE_DESCRIPTION_MESSAGE);
+        }
+        if(categoryPersistencePort.alreadyExistsByName(category.getName())) {
+            errors.add(DomainConstants.CATEGORY_CREATED_MESSAGE);
         }
         if (!errors.isEmpty()) {
             throw new ValidationException(errors);
