@@ -10,7 +10,10 @@ import lombok.Getter;
 @Getter
 public class BrandRequest {
     @NotBlank(message = DomainConstants.FIELD_NAME_EMPTY_MESSAGE)
-    @Size(max = DomainConstants.)
+    @Size(max = DomainConstants.MAX_FIELD_SIZE_NAME, message = DomainConstants.MAX_FIELD_SIZE_NAME_MESSAGE)
     private final String name;
+
+    @NotBlank(message = DomainConstants.FIELD_DESCRIPTION_EMPTY_MESSAGE)
+    @Size(max = DomainConstants.MAX_FIELD_SIZE_DESCRIPTION_BRAND, message = DomainConstants.MAX_FIELD_SIZE_DESCRIPTION_BRAND_MESSAGE)
     private final String description;
 }
