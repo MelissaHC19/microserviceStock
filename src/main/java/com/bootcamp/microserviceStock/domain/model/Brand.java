@@ -1,7 +1,5 @@
 package com.bootcamp.microserviceStock.domain.model;
 
-import com.bootcamp.microserviceStock.domain.exception.EmptyFieldException;
-import com.bootcamp.microserviceStock.domain.exception.MaxFieldSizeException;
 import com.bootcamp.microserviceStock.domain.util.DomainConstants;
 
 public class Brand {
