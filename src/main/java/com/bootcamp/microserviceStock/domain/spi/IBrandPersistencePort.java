@@ -4,4 +4,5 @@ import com.bootcamp.microserviceStock.domain.model.Brand;
 
 public interface IBrandPersistencePort {
     void createBrand(Brand brand);
+    boolean alreadyExistsByName(String name);
 }

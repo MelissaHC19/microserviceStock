@@ -31,6 +31,9 @@ public class BrandUseCase implements IBrandServicePort {
         if (brand.getDescription().length() > DomainConstants.MAX_FIELD_SIZE_DESCRIPTION_BRAND) {
             errors.add(DomainConstants.MAX_FIELD_SIZE_DESCRIPTION_BRAND_MESSAGE);
         }
+        if(brandPersistencePort.alreadyExistsByName(brand.getName())) {
+            errors.add(DomainConstants.BRAND_CREATED_MESSAGE);
+        }
         if (!errors.isEmpty()) {
             throw new ValidationException(errors);
         }
