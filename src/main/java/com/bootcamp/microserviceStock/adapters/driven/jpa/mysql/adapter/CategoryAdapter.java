@@ -21,4 +21,9 @@ public class CategoryAdapter implements ICategoryPersistencePort {
 
         categoryRepository.save(categoryEntityMapper.categoryToEntity(category));
     }
+
+    @Override
+    public boolean alreadyExistsByName(String name) {
+        return categoryRepository.findByName(name).isPresent();
+    }
 }
