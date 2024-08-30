@@ -27,4 +27,9 @@ public class ControllerAdvisor {
         ExceptionResponse response = new ExceptionResponse(errors, HttpStatus.BAD_REQUEST.toString(), LocalDateTime.now());
         return ResponseEntity.badRequest().body(response);
     }
+
+    @ExceptionHandler(BrandAlreadyExistsException.class)
+    public ResponseEntity<ExceptionResponse> handleBrandAlreadyExistsException(BrandAlreadyExistsException e) {
+        return ResponseEntity.badRequest().body(new ExceptionResponse(String.format(e.getMessage()), HttpStatus.BAD_REQUEST.toString(), LocalDateTime.now()));
+    }
 }

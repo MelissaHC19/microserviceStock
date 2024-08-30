@@ -6,4 +6,5 @@ public final class DrivenConstants {
     }
 
     public static final String CATEGORY_ALREADY_EXISTS_MESSAGE = "Category already exists.";
+    public static final String BRAND_ALREADY_EXISTS_MESSAGE = "Brand already exists.";
 }
