@@ -2,10 +2,12 @@ package com.bootcamp.microserviceStock.adapters.driving.http.controller;
 
 import com.bootcamp.microserviceStock.adapters.driving.http.dto.request.CategoryRequest;
 import com.bootcamp.microserviceStock.adapters.driving.http.mapper.ICategoryRequestMapper;
+import com.bootcamp.microserviceStock.configuration.exceptionHandler.ExceptionResponse;
 import com.bootcamp.microserviceStock.domain.api.ICategoryServicePort;
 import com.bootcamp.microserviceStock.domain.util.DomainConstants;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.validation.Valid;
@@ -29,9 +31,9 @@ public class CategoryRestControllerAdapter {
     @Operation(summary = "Create category")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "Category created successfully",
-                    content = @Content),
+                    content = @Content(schema = @Schema(implementation = ControllerResponse.class))),
             @ApiResponse(responseCode = "400", description = "Category not created",
-                    content = @Content),
+                    content = @Content(schema = @Schema(implementation = ExceptionResponse.class))),
     })
     @PostMapping("/create")
     public ResponseEntity<ControllerResponse> createCategory(@Valid @RequestBody CategoryRequest request) {
