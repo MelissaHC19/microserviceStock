@@ -118,7 +118,7 @@ class CategoryRestControllerAdapterTest {
     @Test
     @DisplayName("Should handle validation when name field exceeds maximum field size (50) and description field is empty")
     void createCategoryShouldHandleValidationWhenNameExceedsMaxFieldSizeAndDescriptionIsEmpty() throws Exception {
-        String body = "{\"name\":\"\",\"description\":\"Discover the latest innovations in technology with our curated collection of cutting-edge devices, perfect for enhancing both your home and personal life.\"}";
+        String body = "{\"name\":\"Cutting-Edge Electronic Devices and Innovative Home Gadgets Collection\",\"description\":\"\"}";
         MockHttpServletRequestBuilder request = post("/category/create")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(body);
