@@ -17,4 +17,13 @@ public final class DomainConstants {
     public static final String BRAND_CREATED_MESSAGE = "Brand created successfully.";
     public static final String CATEGORY_ALREADY_EXISTS_MESSAGE = "Category already exists.";
     public static final String BRAND_ALREADY_EXISTS_MESSAGE = "Brand already exists.";
+    public static final String INVALID_PAGE_NUMBER_MESSAGE = "The page number must be non-negative.";
+    public static final String INVALID_PAGE_SIZE_MESSAGE = "The page size must be greater than zero.";
+    public static final String INVALID_SORT_BY_FIELD_MESSAGE = "The sort by field is invalid.";
+    public static final String INVALID_SORT_DIRECTION_MESSAGE = "The sort direction must be 'asc' o 'desc'.";
+    public static final String VALID_SORT_BY_FIELD = "name";
+    public static final String SORT_DIRECTION_ASC = "asc";
+    public static final String SORT_DIRECTION_DESC = "desc";
+    public static final String PAGE_NUMBER_NULL_MESSAGE = "Page number must be provided.";
+    public static final String PAGE_SIZE_NULL_MESSAGE = "Page size must be provided.";
 }
