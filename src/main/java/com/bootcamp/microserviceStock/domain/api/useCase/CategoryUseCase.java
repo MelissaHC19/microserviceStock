@@ -5,6 +5,7 @@ import com.bootcamp.microserviceStock.domain.exception.ValidationException;
 import com.bootcamp.microserviceStock.domain.model.Category;
 import com.bootcamp.microserviceStock.domain.spi.ICategoryPersistencePort;
 import com.bootcamp.microserviceStock.domain.util.DomainConstants;
+import com.bootcamp.microserviceStock.domain.util.Pagination;
 
 import java.util.ArrayList;
 
@@ -39,5 +40,28 @@ public class CategoryUseCase implements ICategoryServicePort {
         }
 
         categoryPersistencePort.createCategory(category);
+    }
+
+    @Override
+    public Pagination<Category> listCategories(int pageNumber, int pageSize, String sortBy, String sortDirection) {
+        ArrayList<String> errors = new ArrayList<>();
+
+        if (pageNumber < 0) {
+            errors.add(DomainConstants.INVALID_PAGE_NUMBER_MESSAGE);
+        }
+        if (pageSize <= 0) {
+            errors.add(DomainConstants.INVALID_PAGE_SIZE_MESSAGE);
+        }
+        if (!sortBy.equalsIgnoreCase(DomainConstants.VALID_SORT_BY_FIELD)) {
+            errors.add(DomainConstants.INVALID_SORT_BY_FIELD_MESSAGE);
+        }
+        if (!sortDirection.equalsIgnoreCase(DomainConstants.SORT_DIRECTION_ASC) && !sortDirection.equalsIgnoreCase(DomainConstants.SORT_DIRECTION_DESC)) {
+            errors.add(DomainConstants.INVALID_SORT_DIRECTION_MESSAGE);
+        }
+        if (!errors.isEmpty()) {
+            throw new ValidationException(errors);
+        }
+
+        return categoryPersistencePort.listCategories(pageNumber, pageSize, sortBy, sortDirection);
     }
 }
