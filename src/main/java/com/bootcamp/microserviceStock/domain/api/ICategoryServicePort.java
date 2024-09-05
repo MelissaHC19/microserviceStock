@@ -5,5 +5,5 @@ import com.bootcamp.microserviceStock.domain.util.Pagination;
 
 public interface ICategoryServicePort {
     void createCategory(Category category);
-    Pagination<Category> listCategories(int pageNumber, int pageSize, String sortBy, String sortDirection);
+    Pagination<Category> listCategories(Integer pageNumber, Integer pageSize, String sortBy, String sortDirection);
 }

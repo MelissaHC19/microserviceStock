@@ -11,8 +11,8 @@ import java.util.List;
 @AllArgsConstructor
 public class PaginationResponse<T> {
     private List<T> content;
-    private int page;
-    private int size;
+    private Integer page;
+    private Integer size;
     private Long totalElements;
     private int totalPages;
     private boolean first;

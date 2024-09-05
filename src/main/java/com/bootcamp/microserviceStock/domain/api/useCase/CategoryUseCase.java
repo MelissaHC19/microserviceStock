@@ -43,13 +43,17 @@ public class CategoryUseCase implements ICategoryServicePort {
     }
 
     @Override
-    public Pagination<Category> listCategories(int pageNumber, int pageSize, String sortBy, String sortDirection) {
+    public Pagination<Category> listCategories(Integer pageNumber, Integer pageSize, String sortBy, String sortDirection) {
         ArrayList<String> errors = new ArrayList<>();
 
-        if (pageNumber < 0) {
+        if (pageNumber == null) {
+            errors.add(DomainConstants.PAGE_NUMBER_NULL_MESSAGE);
+        } else if (pageNumber < 0) {
             errors.add(DomainConstants.INVALID_PAGE_NUMBER_MESSAGE);
         }
-        if (pageSize <= 0) {
+        if (pageSize == null) {
+            errors.add(DomainConstants.PAGE_SIZE_NULL_MESSAGE);
+        } else if (pageSize <= 0) {
             errors.add(DomainConstants.INVALID_PAGE_SIZE_MESSAGE);
         }
         if (!sortBy.equalsIgnoreCase(DomainConstants.VALID_SORT_BY_FIELD)) {

@@ -53,9 +53,9 @@ public class CategoryRestControllerAdapter {
     })
     @GetMapping
     public ResponseEntity<PaginationResponse<CategoryResponse>> listCategories(
-            @RequestParam int page,
-            @RequestParam int size,
-            @RequestParam String sortBy,
+            @RequestParam(required = false) Integer page,
+            @RequestParam(required = false) Integer size,
+            @RequestParam(required = false) String sortBy,
             @RequestParam(defaultValue = "asc") String sortDirection
     ) {
         Pagination<Category> categoryPagination = categoryServicePort.listCategories(page, size, sortBy, sortDirection);

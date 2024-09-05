@@ -24,4 +24,6 @@ public final class DomainConstants {
     public static final String VALID_SORT_BY_FIELD = "name";
     public static final String SORT_DIRECTION_ASC = "asc";
     public static final String SORT_DIRECTION_DESC = "desc";
+    public static final String PAGE_NUMBER_NULL_MESSAGE = "Page number must be provided.";
+    public static final String PAGE_SIZE_NULL_MESSAGE = "Page size must be provided.";
 }
