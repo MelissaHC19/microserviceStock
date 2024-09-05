@@ -56,7 +56,7 @@ public class CategoryUseCase implements ICategoryServicePort {
         } else if (pageSize <= 0) {
             errors.add(DomainConstants.INVALID_PAGE_SIZE_MESSAGE);
         }
-        if (!sortBy.equalsIgnoreCase(DomainConstants.VALID_SORT_BY_FIELD)) {
+        if (sortBy == null || !sortBy.equalsIgnoreCase(DomainConstants.VALID_SORT_BY_FIELD)) {
             errors.add(DomainConstants.INVALID_SORT_BY_FIELD_MESSAGE);
         }
         if (!sortDirection.equalsIgnoreCase(DomainConstants.SORT_DIRECTION_ASC) && !sortDirection.equalsIgnoreCase(DomainConstants.SORT_DIRECTION_DESC)) {
