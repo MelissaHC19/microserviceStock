@@ -7,4 +7,5 @@ import org.mapstruct.Mapper;
 @Mapper(componentModel = "spring")
 public interface IBrandEntityMapper {
     BrandEntity brandToEntity(Brand brand);
+    Brand entityToDomain(BrandEntity brandEntity);
 }
