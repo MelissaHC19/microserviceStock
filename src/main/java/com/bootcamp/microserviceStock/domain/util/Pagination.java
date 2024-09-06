@@ -5,7 +5,7 @@ import java.util.List;
 public class Pagination<T> {
     private List<T> content;
     private Integer pageNumber;
-    private int pageSize;
+    private Integer pageSize;
     private Long totalElements;
     private int totalPages;
     private boolean first;
@@ -13,7 +13,7 @@ public class Pagination<T> {
 
     public Pagination() {}
 
-    public Pagination(List<T> content, Integer pageNumber, int pageSize, Long totalElements, int totalPages) {
+    public Pagination(List<T> content, Integer pageNumber, Integer pageSize, Long totalElements) {
         this.content = content;
         this.pageNumber = pageNumber;
         this.pageSize = pageSize;
@@ -47,11 +47,11 @@ public class Pagination<T> {
         this.totalElements = totalElements;
     }
 
-    public int getPageSize() {
+    public Integer getPageSize() {
         return pageSize;
     }
 
-    public void setPageSize(int pageSize) {
+    public void setPageSize(Integer pageSize) {
         this.pageSize = pageSize;
     }
 
