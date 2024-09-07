@@ -47,12 +47,12 @@ public class CategoryUseCase implements ICategoryServicePort {
         ArrayList<String> errors = new ArrayList<>();
 
         if (pageNumber == null) {
-            errors.add(DomainConstants.PAGE_NUMBER_NULL_MESSAGE);
+            errors.add(DomainConstants.FIELD_PAGE_NUMBER_NULL_MESSAGE);
         } else if (pageNumber < 0) {
             errors.add(DomainConstants.INVALID_PAGE_NUMBER_MESSAGE);
         }
         if (pageSize == null) {
-            errors.add(DomainConstants.PAGE_SIZE_NULL_MESSAGE);
+            errors.add(DomainConstants.FIELD_PAGE_SIZE_NULL_MESSAGE);
         } else if (pageSize <= 0) {
             errors.add(DomainConstants.INVALID_PAGE_SIZE_MESSAGE);
         }

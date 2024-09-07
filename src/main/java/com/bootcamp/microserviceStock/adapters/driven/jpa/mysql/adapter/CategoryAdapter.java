@@ -29,6 +29,11 @@ public class CategoryAdapter implements ICategoryPersistencePort {
     }
 
     @Override
+    public boolean alreadyExistsByID(Long id) {
+        return categoryRepository.findById(id).isPresent();
+    }
+
+    @Override
     public Pagination<Category> listCategories(Integer pageNumber, Integer pageSize, String sortBy, String sortDirection) {
         Sort sort = Sort.by(Sort.Order.by(sortBy).with(Sort.Direction.fromString(sortDirection)));
         Pageable pageable = PageRequest.of(pageNumber, pageSize, sort);
