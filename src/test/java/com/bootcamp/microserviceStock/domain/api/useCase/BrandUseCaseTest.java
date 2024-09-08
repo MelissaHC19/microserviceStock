@@ -4,6 +4,7 @@ import com.bootcamp.microserviceStock.domain.exception.ValidationException;
 import com.bootcamp.microserviceStock.domain.model.Brand;
 import com.bootcamp.microserviceStock.domain.spi.IBrandPersistencePort;
 import com.bootcamp.microserviceStock.domain.util.DomainConstants;
+import com.bootcamp.microserviceStock.domain.util.Pagination;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -11,6 +12,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
+
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
@@ -154,5 +157,27 @@ class BrandUseCaseTest {
         });
         assertThat(exception.getErrors()).contains(DomainConstants.BRAND_ALREADY_EXISTS_MESSAGE, DomainConstants.MAX_FIELD_SIZE_DESCRIPTION_BRAND_MESSAGE);
         Mockito.verify(brandPersistencePort, Mockito.never()).createBrand(brand);
+    }
+
+    @Test
+    @DisplayName("List brands correctly")
+    void listBrands() {
+        Brand brand = new Brand(1L, "TechNova", "Innovative electronics that combine style and functionality, from smartphones to smart home gadgets.");
+        Pagination<Brand> pagination = new Pagination<>(List.of(brand), 0, 10, 1L);
+
+        Mockito.when(brandPersistencePort.listBrands(0, 10, "name", "asc")).thenReturn(pagination);
+
+        Pagination<Brand> result = brandUseCase.listBrands(0, 10, "name", "asc");
+
+        assertNotNull(result, "The result shouldn't be null.");
+        assertFalse(result.getContent().isEmpty(), "The content shouldn't be empty.");
+        assertEquals(1, result.getContent().size(), "The number of brands should be 1,");
+
+        Brand returnedBrands = result.getContent().get(0);
+        assertEquals(1L, returnedBrands.getId(), "The brand ID should be 1L.");
+        assertEquals("TechNova", returnedBrands.getName(), "The brand name should be 'TechNova'.");
+        assertEquals("Innovative electronics that combine style and functionality, from smartphones to smart home gadgets.", returnedBrands.getDescription(), "The description should be 'Innovative electronics that combine style and functionality, from smartphones to smart home gadgets.'");
+
+        Mockito.verify(brandPersistencePort, Mockito.times(1)).listBrands(0, 10, "name", "asc");
     }
 }
