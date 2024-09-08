@@ -6,6 +6,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
+import org.springframework.validation.BindException;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -27,4 +29,16 @@ public class ControllerAdvisor {
         ExceptionResponse response = new ExceptionResponse(errors, HttpStatus.BAD_REQUEST.toString(), LocalDateTime.now());
         return ResponseEntity.badRequest().body(response);
     }
+
+//    @ExceptionHandler({MethodArgumentTypeMismatchException.class, BindException.class})
+//    public ResponseEntity<ExceptionResponse> handleMethodArgumentTypeMismatchException(BindException ex) {
+//        ArrayList<String> errors = new ArrayList<>();
+//        ex.getBindingResult().getFieldErrors().forEach(error -> {
+//            String errorMessage = String.format("Invalid parameter '%s': %s",
+//                    error.getField(), error.getDefaultMessage());
+//            errors.add(errorMessage);
+//        });
+//        ExceptionResponse response = new ExceptionResponse(errors, HttpStatus.BAD_REQUEST.toString(), LocalDateTime.now());
+//        return ResponseEntity.badRequest().body(response);
+//    }
 }

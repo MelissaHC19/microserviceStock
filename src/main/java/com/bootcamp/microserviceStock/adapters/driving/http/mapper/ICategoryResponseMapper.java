@@ -21,8 +21,7 @@ public interface ICategoryResponseMapper {
                 categoryResponses,
                 pagination.getPageNumber(),
                 pagination.getPageSize(),
-                pagination.getTotalElements(),
-                pagination.getTotalPages());
+                pagination.getTotalElements());
         return toPaginationResponse(responsePagination);
     }
 
