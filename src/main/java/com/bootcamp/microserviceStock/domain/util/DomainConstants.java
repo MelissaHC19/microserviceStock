@@ -1,5 +1,8 @@
 package com.bootcamp.microserviceStock.domain.util;
 
+import java.util.Arrays;
+import java.util.List;
+
 public final class DomainConstants {
     private DomainConstants() {
         throw new IllegalStateException("Utility class");
@@ -42,4 +45,5 @@ public final class DomainConstants {
     public static final String INVALID_CATEGORY_LIST_MESSAGE = "The number of categories associated with must be between 1 and 3.";
     public static final String ARTICLE_CREATED_MESSAGE = "Article created successfully.";
     public static final String ARTICLE_ALREADY_EXISTS_MESSAGE = "Article already exists.";
+    public static final List<String> VALID_SORT_BY_FIELD_ARTICLE = Arrays.asList("name", "brandName", "categoryName");
 }

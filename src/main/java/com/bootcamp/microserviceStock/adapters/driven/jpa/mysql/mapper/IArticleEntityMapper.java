@@ -7,4 +7,5 @@ import org.mapstruct.Mapper;
 @Mapper(componentModel = "spring")
 public interface IArticleEntityMapper {
     ArticleEntity articleToEntity(Article article);
+    Article entityToDomain(ArticleEntity articleEntity);
 }

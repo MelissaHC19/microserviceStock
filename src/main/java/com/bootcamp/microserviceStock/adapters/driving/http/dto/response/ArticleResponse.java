@@ -7,6 +7,7 @@ import lombok.Getter;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Map;
 
 @AllArgsConstructor
 @Getter
@@ -16,6 +17,6 @@ public class ArticleResponse {
     private String description;
     private Integer quantity;
     private BigDecimal price;
-    private Brand brand;
-    private List<Category> categoryList;
+    private String brand;
+    private List<Map<String, Object>> categoryList;
 }
