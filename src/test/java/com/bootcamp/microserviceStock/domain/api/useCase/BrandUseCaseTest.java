@@ -180,4 +180,103 @@ class BrandUseCaseTest {
 
         Mockito.verify(brandPersistencePort, Mockito.times(1)).listBrands(0, 10, "name", "asc");
     }
+
+    @Test
+    @DisplayName("Validation exception when pageNumber is null")
+    void listBrandsShouldThrowValidationExceptionWhenPageNumberIsNull() {
+        ValidationException exception = assertThrows(ValidationException.class, ()->{
+            brandUseCase.listBrands(null, 3, "name", "asc");
+        });
+        assertThat(exception.getErrors()).contains(DomainConstants.PAGE_NUMBER_NULL_MESSAGE);
+    }
+
+    @Test
+    @DisplayName("Validation exception when pageNumber is a negative number")
+    void listBrandsShouldThrowValidationExceptionWhenPageNumberIsNegative() {
+        ValidationException exception = assertThrows(ValidationException.class, ()->{
+            brandUseCase.listBrands(-1, 3, "name", "asc");
+        });
+        assertThat(exception.getErrors()).contains(DomainConstants.INVALID_PAGE_NUMBER_MESSAGE);
+    }
+
+    @Test
+    @DisplayName("Validation exception when pageSize is null")
+    void listBrandsShouldThrowValidationExceptionWhenPageSizeIsNull() {
+        ValidationException exception = assertThrows(ValidationException.class, ()->{
+            brandUseCase.listBrands(0, null, "name", "asc");
+        });
+        assertThat(exception.getErrors()).contains(DomainConstants.PAGE_SIZE_NULL_MESSAGE);
+    }
+
+    @Test
+    @DisplayName("Validation exception when pageSize is less than or equal to zero")
+    void listBrandsShouldThrowValidationExceptionWhenPageSizeIsLessThanOrEqualToZero() {
+        ValidationException exception = assertThrows(ValidationException.class, ()->{
+            brandUseCase.listBrands(0, -1, "name", "asc");
+        });
+        assertThat(exception.getErrors()).contains(DomainConstants.INVALID_PAGE_SIZE_MESSAGE);
+    }
+
+    @Test
+    @DisplayName("Validation exception when sortBy is null")
+    void listBrandsShouldThrowValidationExceptionWhenSortByIsNull() {
+        ValidationException exception = assertThrows(ValidationException.class, ()->{
+            brandUseCase.listBrands(0, 3, null, "asc");
+        });
+        assertThat(exception.getErrors()).contains(DomainConstants.INVALID_SORT_BY_FIELD_MESSAGE);
+    }
+
+    @Test
+    @DisplayName("Validation exception when sortBy is different from 'name'")
+    void listBrandsShouldThrowValidationExceptionWhenSortByIsNotName() {
+        ValidationException exception = assertThrows(ValidationException.class, ()->{
+            brandUseCase.listBrands(0, 3, "description", "asc");
+        });
+        assertThat(exception.getErrors()).contains(DomainConstants.INVALID_SORT_BY_FIELD_MESSAGE);
+    }
+
+    @Test
+    @DisplayName("Validation exception when sortDirection isn't 'asc' or 'desc'")
+    void listBrandsShouldThrowValidationExceptionWhenSortDirectionIsNotAscOrDesc() {
+        ValidationException exception = assertThrows(ValidationException.class, ()->{
+            brandUseCase.listBrands(0, 3, "name", "order");
+        });
+        assertThat(exception.getErrors()).contains(DomainConstants.INVALID_SORT_DIRECTION_MESSAGE);
+    }
+
+    @Test
+    @DisplayName("Validation exception when pageNumber and pageSize are null")
+    void listBrandsShouldThrowValidationExceptionWhenPageNumberAndPageSizeAreNull() {
+        ValidationException exception = assertThrows(ValidationException.class, ()->{
+            brandUseCase.listBrands(null, null, "name", "asc");
+        });
+        assertThat(exception.getErrors()).contains(DomainConstants.PAGE_NUMBER_NULL_MESSAGE, DomainConstants.PAGE_SIZE_NULL_MESSAGE);
+    }
+
+    @Test
+    @DisplayName("Validation exception when pageNumber is negative and pageSize is null")
+    void listBrandsShouldThrowValidationExceptionWhenPageNumberIsNegativeAndPageSizeIsNull() {
+        ValidationException exception = assertThrows(ValidationException.class, ()->{
+            brandUseCase.listBrands(-1, null, "name", "asc");
+        });
+        assertThat(exception.getErrors()).contains(DomainConstants.INVALID_PAGE_NUMBER_MESSAGE, DomainConstants.PAGE_SIZE_NULL_MESSAGE);
+    }
+
+    @Test
+    @DisplayName("Validation exception when pageNumber is null and pageSize is less than or equal to zero")
+    void listBrandsShouldThrowValidationExceptionWhenPageNumberIsNullAndPageSizeIsLessThanOrEqualToZero() {
+        ValidationException exception = assertThrows(ValidationException.class, ()->{
+            brandUseCase.listBrands(null, -1, "name", "asc");
+        });
+        assertThat(exception.getErrors()).contains(DomainConstants.PAGE_NUMBER_NULL_MESSAGE, DomainConstants.INVALID_PAGE_SIZE_MESSAGE);
+    }
+
+    @Test
+    @DisplayName("Validation exception when pageNumber is negative and pageSize is less than or equal to zero")
+    void listBrandsShouldThrowValidationExceptionWhenPageNumberIsNegativeAndPageSizeIsLessThanOrEqualToZero() {
+        ValidationException exception = assertThrows(ValidationException.class, ()->{
+            brandUseCase.listBrands(-1, 0, "name", "asc");
+        });
+        assertThat(exception.getErrors()).contains(DomainConstants.INVALID_PAGE_NUMBER_MESSAGE, DomainConstants.INVALID_PAGE_SIZE_MESSAGE);
+    }
 }
