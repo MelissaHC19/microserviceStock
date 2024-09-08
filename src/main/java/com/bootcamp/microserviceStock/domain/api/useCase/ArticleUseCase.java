@@ -36,20 +36,23 @@ public class ArticleUseCase implements IArticleServicePort {
         }
         if (article.getQuantity() == null) {
             errors.add(DomainConstants.FIELD_QUANTITY_NULL_MESSAGE);
-        }
-        if (article.getQuantity() < 0) {
+        } else if (article.getQuantity() < 0) {
             errors.add(DomainConstants.INVALID_QUANTITY_MESSAGE);
         }
         if (article.getPrice() == null) {
             errors.add(DomainConstants.FIELD_PRICE_NULL_MESSAGE);
-        }
-        if (article.getPrice().compareTo(BigDecimal.ZERO) <= 0) {
+        } else if (article.getPrice().compareTo(BigDecimal.ZERO) <= 0) {
             errors.add(DomainConstants.INVALID_PRICE_MESSAGE);
         }
+        if (article.getBrand().getId() == null) {
+            errors.add(DomainConstants.FIELD_BRAND_ID_NULL_MESSAGE);
+        } else if (article.getBrand().getId() <= 0) {
+            errors.add(DomainConstants.INVALID_BRAND_ID_MESSAGE);
+        }
         if (article.getCategoryList().isEmpty()){
-            errors.add(DomainConstants.MIN_FIELD_CATEGORY_LIST_MESSAGE);
-        } else if (article.getCategoryList().size() > DomainConstants.MAX_FIELD_CATEGORY_LIST) {
-            errors.add(DomainConstants.MAX_FIELD_CATEGORY_LIST_MESSAGE);
+            errors.add(DomainConstants.MIN_FIELD_SIZE_CATEGORY_LIST_MESSAGE);
+        } else if (article.getCategoryList().size() > DomainConstants.MAX_FIELD_SIZE_CATEGORY_LIST) {
+            errors.add(DomainConstants.MAX_FIELD_SIZE_CATEGORY_LIST_MESSAGE);
         }
 
         Set<Long> categoryIDs = new HashSet<>();
@@ -68,6 +71,10 @@ public class ArticleUseCase implements IArticleServicePort {
 
         if (!brandPersistencePort.alreadyExistsByID(article.getBrand().getId())) {
             errors.add(String.format(DomainConstants.BRAND_DOES_NOT_EXIST_MESSAGE, article.getBrand().getId()));
+        }
+
+        if (articlePersistencePort.alreadyExistsByName(article.getName())) {
+            errors.add(DomainConstants.ARTICLE_ALREADY_EXISTS_MESSAGE);
         }
 
         if (!errors.isEmpty()) {

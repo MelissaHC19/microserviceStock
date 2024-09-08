@@ -1,7 +1,5 @@
 package com.bootcamp.microserviceStock.adapters.driving.http.dto.request;
 
-import com.bootcamp.microserviceStock.domain.model.Brand;
-import com.bootcamp.microserviceStock.domain.model.Category;
 import com.bootcamp.microserviceStock.domain.util.DomainConstants;
 import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
@@ -32,8 +30,8 @@ public class ArticleRequest {
     @Positive(message = DomainConstants.INVALID_BRAND_ID_MESSAGE)
     private Long brandID;
 
-    @Size(min = DomainConstants.MIN_FIELD_CATEGORY_LIST,
-            max = DomainConstants.MAX_FIELD_CATEGORY_LIST,
+    @Size(min = DomainConstants.MIN_FIELD_SIZE_CATEGORY_LIST,
+            max = DomainConstants.MAX_FIELD_SIZE_CATEGORY_LIST,
             message = DomainConstants.INVALID_CATEGORY_LIST_MESSAGE
     )
     @UniqueElements(message = DomainConstants.DUPLICATED_CATEGORY_MESSAGE)
