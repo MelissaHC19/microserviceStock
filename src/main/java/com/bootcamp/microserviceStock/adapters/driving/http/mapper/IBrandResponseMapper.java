@@ -21,8 +21,7 @@ public interface IBrandResponseMapper {
                 brandResponses,
                 pagination.getPageNumber(),
                 pagination.getPageSize(),
-                pagination.getTotalElements(),
-                pagination.getTotalPages());
+                pagination.getTotalElements());
         return toPaginationResponse(responsePagination);
     }
 
