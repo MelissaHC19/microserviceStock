@@ -8,6 +8,7 @@ import com.bootcamp.microserviceStock.domain.spi.IArticlePersistencePort;
 import com.bootcamp.microserviceStock.domain.spi.IBrandPersistencePort;
 import com.bootcamp.microserviceStock.domain.spi.ICategoryPersistencePort;
 import com.bootcamp.microserviceStock.domain.util.DomainConstants;
+import com.bootcamp.microserviceStock.domain.util.Pagination;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -346,5 +347,143 @@ class ArticleUseCaseTest {
         Mockito.verify(articlePersistencePort, Mockito.never()).createArticle(article);
         Mockito.verify(brandPersistencePort, Mockito.times(1)).alreadyExistsByID(article.getBrand().getId());
         Mockito.verify(categoryPersistencePort, Mockito.times(1)).alreadyExistsByID(article.getCategoryList().get(0).getId());
+    }
+
+    @Test
+    @DisplayName("List articles correcly")
+    void listArticles() {
+        Article article1 = new Article(1L, "SmartX Pro 5G Smartphone", "Experience ultra-fast connectivity with the latest 5G-enabled smartphone, designed for superior performance.", 5,
+                new BigDecimal("1000.50"),
+                new Brand(1L, null, null),
+                List.of(new Category(1L, null, null))
+        );
+        Article article2 = new Article(2L, "Organic Bamboo Bedding Set", "Sleep better with our luxurious bamboo bedding, naturally breathable and hypoallergenic.", 15,
+                new BigDecimal("299.99"),
+                new Brand(2L, null, null),
+                List.of(
+                        new Category(2L, null, null),
+                        new Category(3L, null, null)
+                )
+        );
+        Pagination<Article> pagination = new Pagination<>(List.of(article1, article2), 0, 3, 2L);
+
+        Mockito.when(articlePersistencePort.listArticles(0, 3, "name", "asc")).thenReturn(pagination);
+
+        Pagination<Article> result = articleUseCase.listArticles(0, 3, "name", "asc");
+
+        assertNotNull(result, "The result shouldn't be null.");
+        assertFalse(result.getContent().isEmpty(), "The content shouldn't be empty.");
+        assertEquals(2, result.getContent().size(), "The number of articles should be 2.");
+
+        Article returnedArticle1 = result.getContent().get(0);
+        assertEquals(1L, returnedArticle1.getId(), "The article ID should be 1L.");
+        assertEquals("SmartX Pro 5G Smartphone", returnedArticle1.getName(), "The article name should be 'SmartX Pro 5G Smartphone'.");
+        assertEquals("Experience ultra-fast connectivity with the latest 5G-enabled smartphone, designed for superior performance.", returnedArticle1.getDescription(), "The description should be 'Experience ultra-fast connectivity with the latest 5G-enabled smartphone, designed for superior performance.'");
+
+        Article returnedArticle2 = result.getContent().get(1);
+        assertEquals(2L, returnedArticle2.getId(), "The article ID should be 2L.");
+        assertEquals("Organic Bamboo Bedding Set", returnedArticle2.getName(), "The article name should be 'Organic Bamboo Bedding Set'.");
+        assertEquals("Sleep better with our luxurious bamboo bedding, naturally breathable and hypoallergenic.", returnedArticle2.getDescription(), "The description should be 'Sleep better with our luxurious bamboo bedding, naturally breathable and hypoallergenic.'");
+
+        Mockito.verify(articlePersistencePort, Mockito.times(1)).listArticles(0, 3, "name", "asc");
+    }
+
+    @Test
+    @DisplayName("Validation exception when pageNumber is null")
+    void listArticlesShouldThrowValidationExceptionWhenPageNumberIsNull() {
+        ValidationException exception = assertThrows(ValidationException.class, ()->{
+            articleUseCase.listArticles(null, 3, "name", "asc");
+        });
+        assertThat(exception.getErrors()).contains(DomainConstants.FIELD_PAGE_NUMBER_NULL_MESSAGE);
+    }
+
+    @Test
+    @DisplayName("Validation exception when pageNumber is a negative number")
+    void listArticlesShouldThrowValidationExceptionWhenPageNumberIsNegative() {
+        ValidationException exception = assertThrows(ValidationException.class, ()->{
+            articleUseCase.listArticles(-1, 3, "name", "asc");
+        });
+        assertThat(exception.getErrors()).contains(DomainConstants.INVALID_PAGE_NUMBER_MESSAGE);
+    }
+
+    @Test
+    @DisplayName("Validation exception when pageSize is null")
+    void listArticlesShouldThrowValidationExceptionWhenPageSizeIsNull() {
+        ValidationException exception = assertThrows(ValidationException.class, ()->{
+            articleUseCase.listArticles(0, null, "name", "asc");
+        });
+        assertThat(exception.getErrors()).contains(DomainConstants.FIELD_PAGE_SIZE_NULL_MESSAGE);
+    }
+
+    @Test
+    @DisplayName("Validation exception when pageSize is less than or equal to zero")
+    void listArticlesShouldThrowValidationExceptionWhenPageSizeIsLessThanOrEqualToZero() {
+        ValidationException exception = assertThrows(ValidationException.class, ()->{
+            articleUseCase.listArticles(0, -1, "name", "asc");
+        });
+        assertThat(exception.getErrors()).contains(DomainConstants.INVALID_PAGE_SIZE_MESSAGE);
+    }
+
+    @Test
+    @DisplayName("Validation exception when sortBy is null")
+    void listArticlesShouldThrowValidationExceptionWhenSortByIsNull() {
+        ValidationException exception = assertThrows(ValidationException.class, ()->{
+            articleUseCase.listArticles(0, 3, null, "asc");
+        });
+        assertThat(exception.getErrors()).contains(DomainConstants.INVALID_SORT_BY_FIELD_MESSAGE);
+    }
+
+    @Test
+    @DisplayName("Validation exception when sortBy is different from 'name', 'brandName' or 'categoryName'")
+    void listArticlesShouldThrowValidationExceptionWhenSortByIsNotNameBrandNameOrCategoryName() {
+        ValidationException exception = assertThrows(ValidationException.class, ()->{
+            articleUseCase.listArticles(0, 3, "description", "asc");
+        });
+        assertThat(exception.getErrors()).contains(DomainConstants.INVALID_SORT_BY_FIELD_MESSAGE);
+    }
+
+    @Test
+    @DisplayName("Validation exception when sortDirection isn't 'asc' or 'desc'")
+    void listArticlesShouldThrowValidationExceptionWhenSortDirectionIsNotAscOrDesc() {
+        ValidationException exception = assertThrows(ValidationException.class, ()->{
+            articleUseCase.listArticles(0, 3, "name", "order");
+        });
+        assertThat(exception.getErrors()).contains(DomainConstants.INVALID_SORT_DIRECTION_MESSAGE);
+    }
+
+    @Test
+    @DisplayName("Validation exception when pageNumber and pageSize are null")
+    void listArticlesShouldThrowValidationExceptionWhenPageNumberAndPageSizeAreNull() {
+        ValidationException exception = assertThrows(ValidationException.class, ()->{
+            articleUseCase.listArticles(null, null, "name", "asc");
+        });
+        assertThat(exception.getErrors()).contains(DomainConstants.FIELD_PAGE_NUMBER_NULL_MESSAGE, DomainConstants.FIELD_PAGE_SIZE_NULL_MESSAGE);
+    }
+
+    @Test
+    @DisplayName("Validation exception when pageNumber is negative and pageSize is null")
+    void listArticlesShouldThrowValidationExceptionWhenPageNumberIsNegativeAndPageSizeIsNull() {
+        ValidationException exception = assertThrows(ValidationException.class, ()->{
+            articleUseCase.listArticles(-1, null, "name", "asc");
+        });
+        assertThat(exception.getErrors()).contains(DomainConstants.INVALID_PAGE_NUMBER_MESSAGE, DomainConstants.FIELD_PAGE_SIZE_NULL_MESSAGE);
+    }
+
+    @Test
+    @DisplayName("Validation exception when pageNumber is null and pageSize is less than or equal to zero")
+    void listArticlesShouldThrowValidationExceptionWhenPageNumberIsNullAndPageSizeIsLessThanOrEqualToZero() {
+        ValidationException exception = assertThrows(ValidationException.class, ()->{
+            articleUseCase.listArticles(null, -1, "name", "asc");
+        });
+        assertThat(exception.getErrors()).contains(DomainConstants.FIELD_PAGE_NUMBER_NULL_MESSAGE, DomainConstants.INVALID_PAGE_SIZE_MESSAGE);
+    }
+
+    @Test
+    @DisplayName("Validation exception when pageNumber is negative and pageSize is less than or equal to zero")
+    void listArticlesShouldThrowValidationExceptionWhenPageNumberIsNegativeAndPageSizeIsLessThanOrEqualToZero() {
+        ValidationException exception = assertThrows(ValidationException.class, ()->{
+            articleUseCase.listArticles(-1, 0, "name", "asc");
+        });
+        assertThat(exception.getErrors()).contains(DomainConstants.INVALID_PAGE_NUMBER_MESSAGE, DomainConstants.INVALID_PAGE_SIZE_MESSAGE);
     }
 }

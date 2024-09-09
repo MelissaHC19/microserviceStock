@@ -188,7 +188,7 @@ class CategoryUseCaseTest {
         ValidationException exception = assertThrows(ValidationException.class, ()->{
             categoryUseCase.listCategories(null, 3, "name", "asc");
         });
-        assertThat(exception.getErrors()).contains(DomainConstants.PAGE_NUMBER_NULL_MESSAGE);
+        assertThat(exception.getErrors()).contains(DomainConstants.FIELD_PAGE_NUMBER_NULL_MESSAGE);
     }
 
     @Test
@@ -206,7 +206,7 @@ class CategoryUseCaseTest {
         ValidationException exception = assertThrows(ValidationException.class, ()->{
             categoryUseCase.listCategories(0, null, "name", "asc");
         });
-        assertThat(exception.getErrors()).contains(DomainConstants.PAGE_SIZE_NULL_MESSAGE);
+        assertThat(exception.getErrors()).contains(DomainConstants.FIELD_PAGE_SIZE_NULL_MESSAGE);
     }
 
     @Test
@@ -251,7 +251,7 @@ class CategoryUseCaseTest {
         ValidationException exception = assertThrows(ValidationException.class, ()->{
             categoryUseCase.listCategories(null, null, "name", "asc");
         });
-        assertThat(exception.getErrors()).contains(DomainConstants.PAGE_NUMBER_NULL_MESSAGE, DomainConstants.PAGE_SIZE_NULL_MESSAGE);
+        assertThat(exception.getErrors()).contains(DomainConstants.FIELD_PAGE_NUMBER_NULL_MESSAGE, DomainConstants.FIELD_PAGE_SIZE_NULL_MESSAGE);
     }
 
     @Test
@@ -260,7 +260,7 @@ class CategoryUseCaseTest {
         ValidationException exception = assertThrows(ValidationException.class, ()->{
             categoryUseCase.listCategories(-1, null, "name", "asc");
         });
-        assertThat(exception.getErrors()).contains(DomainConstants.INVALID_PAGE_NUMBER_MESSAGE, DomainConstants.PAGE_SIZE_NULL_MESSAGE);
+        assertThat(exception.getErrors()).contains(DomainConstants.INVALID_PAGE_NUMBER_MESSAGE, DomainConstants.FIELD_PAGE_SIZE_NULL_MESSAGE);
     }
 
     @Test
@@ -269,7 +269,7 @@ class CategoryUseCaseTest {
         ValidationException exception = assertThrows(ValidationException.class, ()->{
             categoryUseCase.listCategories(null, -1, "name", "asc");
         });
-        assertThat(exception.getErrors()).contains(DomainConstants.PAGE_NUMBER_NULL_MESSAGE, DomainConstants.INVALID_PAGE_SIZE_MESSAGE);
+        assertThat(exception.getErrors()).contains(DomainConstants.FIELD_PAGE_NUMBER_NULL_MESSAGE, DomainConstants.INVALID_PAGE_SIZE_MESSAGE);
     }
 
     @Test

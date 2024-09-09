@@ -171,7 +171,7 @@ class BrandUseCaseTest {
 
         assertNotNull(result, "The result shouldn't be null.");
         assertFalse(result.getContent().isEmpty(), "The content shouldn't be empty.");
-        assertEquals(1, result.getContent().size(), "The number of brands should be 1,");
+        assertEquals(1, result.getContent().size(), "The number of brands should be 1.");
 
         Brand returnedBrands = result.getContent().get(0);
         assertEquals(1L, returnedBrands.getId(), "The brand ID should be 1L.");
@@ -187,7 +187,7 @@ class BrandUseCaseTest {
         ValidationException exception = assertThrows(ValidationException.class, ()->{
             brandUseCase.listBrands(null, 3, "name", "asc");
         });
-        assertThat(exception.getErrors()).contains(DomainConstants.PAGE_NUMBER_NULL_MESSAGE);
+        assertThat(exception.getErrors()).contains(DomainConstants.FIELD_PAGE_NUMBER_NULL_MESSAGE);
     }
 
     @Test
@@ -205,7 +205,7 @@ class BrandUseCaseTest {
         ValidationException exception = assertThrows(ValidationException.class, ()->{
             brandUseCase.listBrands(0, null, "name", "asc");
         });
-        assertThat(exception.getErrors()).contains(DomainConstants.PAGE_SIZE_NULL_MESSAGE);
+        assertThat(exception.getErrors()).contains(DomainConstants.FIELD_PAGE_SIZE_NULL_MESSAGE);
     }
 
     @Test
@@ -250,7 +250,7 @@ class BrandUseCaseTest {
         ValidationException exception = assertThrows(ValidationException.class, ()->{
             brandUseCase.listBrands(null, null, "name", "asc");
         });
-        assertThat(exception.getErrors()).contains(DomainConstants.PAGE_NUMBER_NULL_MESSAGE, DomainConstants.PAGE_SIZE_NULL_MESSAGE);
+        assertThat(exception.getErrors()).contains(DomainConstants.FIELD_PAGE_NUMBER_NULL_MESSAGE, DomainConstants.FIELD_PAGE_SIZE_NULL_MESSAGE);
     }
 
     @Test
@@ -259,7 +259,7 @@ class BrandUseCaseTest {
         ValidationException exception = assertThrows(ValidationException.class, ()->{
             brandUseCase.listBrands(-1, null, "name", "asc");
         });
-        assertThat(exception.getErrors()).contains(DomainConstants.INVALID_PAGE_NUMBER_MESSAGE, DomainConstants.PAGE_SIZE_NULL_MESSAGE);
+        assertThat(exception.getErrors()).contains(DomainConstants.INVALID_PAGE_NUMBER_MESSAGE, DomainConstants.FIELD_PAGE_SIZE_NULL_MESSAGE);
     }
 
     @Test
@@ -268,7 +268,7 @@ class BrandUseCaseTest {
         ValidationException exception = assertThrows(ValidationException.class, ()->{
             brandUseCase.listBrands(null, -1, "name", "asc");
         });
-        assertThat(exception.getErrors()).contains(DomainConstants.PAGE_NUMBER_NULL_MESSAGE, DomainConstants.INVALID_PAGE_SIZE_MESSAGE);
+        assertThat(exception.getErrors()).contains(DomainConstants.FIELD_PAGE_NUMBER_NULL_MESSAGE, DomainConstants.INVALID_PAGE_SIZE_MESSAGE);
     }
 
     @Test
